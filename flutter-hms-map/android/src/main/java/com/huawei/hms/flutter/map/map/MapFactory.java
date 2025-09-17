@@ -27,10 +27,10 @@ import com.huawei.hms.flutter.map.utils.Convert;
 import com.huawei.hms.maps.model.CameraPosition;
 
 import io.flutter.plugin.common.BinaryMessenger;
-import io.flutter.plugin.common.PluginRegistry;
 import io.flutter.plugin.common.StandardMessageCodec;
 import io.flutter.plugin.platform.PlatformView;
 import io.flutter.plugin.platform.PlatformViewFactory;
+import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
 
 import java.util.HashMap;
 import java.util.List;
@@ -51,17 +51,17 @@ public class MapFactory extends PlatformViewFactory {
 
     private final Lifecycle lifecycle;
 
-    private final PluginRegistry.Registrar registrar;
+    private final ActivityPluginBinding activityPluginBinding;
 
     public MapFactory(final AtomicInteger state, final BinaryMessenger binaryMessenger, final Activity mActivity,
-        final Lifecycle lifecycle, final PluginRegistry.Registrar registrar, final int activityHashCode) {
+        final Lifecycle lifecycle, final ActivityPluginBinding activityPluginBinding) {
         super(StandardMessageCodec.INSTANCE);
         mActivityState = state;
         this.binaryMessenger = binaryMessenger;
         this.application = mActivity.getApplication();
-        this.activityHashCode = activityHashCode;
+        this.activityHashCode = activityPluginBinding.getActivity().hashCode();;
         this.lifecycle = lifecycle;
-        this.registrar = registrar;
+        this.activityPluginBinding = activityPluginBinding;
         this.mActivity = mActivity;
     }
 
@@ -96,7 +96,6 @@ public class MapFactory extends PlatformViewFactory {
         if (params.containsKey(Param.HEAT_MAPS_TO_INSERT)) {
             builder.setHeatMaps((List<HashMap<String, Object>>) params.get(Param.HEAT_MAPS_TO_INSERT));
         }
-        return builder.build(id, context, mActivity, mActivityState, binaryMessenger, application, lifecycle, registrar,
-            activityHashCode);
+        return builder.build(id, context, mActivity, mActivityState, binaryMessenger, application, lifecycle, activityPluginBinding);
     }
 }

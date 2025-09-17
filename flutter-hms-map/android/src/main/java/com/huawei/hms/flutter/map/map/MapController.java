@@ -82,7 +82,7 @@ final class MapController
 
     private final Application mApplication;
 
-    private final PluginRegistry.Registrar registrar;
+    private final ActivityPluginBinding activityPluginBinding;
 
     private final MapView mapView;
 
@@ -154,7 +154,7 @@ final class MapController
 
     MapController(final int id, final Context context, final Activity mActivity, final AtomicInteger activityState,
         final BinaryMessenger binaryMessenger, final Application application, final Lifecycle lifecycle,
-        final PluginRegistry.Registrar registrar, final int registrarActivityHashCode, final HuaweiMapOptions options) {
+        final ActivityPluginBinding activityPluginBinding, final HuaweiMapOptions options) {
         this.context = context;
         this.activityState = activityState;
         mapView = new MapView(mActivity, options);
@@ -164,8 +164,8 @@ final class MapController
         methodChannel.setMethodCallHandler(this);
         mApplication = application;
         this.lifecycle = lifecycle;
-        this.registrar = registrar;
-        activityHashCode = registrarActivityHashCode;
+        this.activityPluginBinding = activityPluginBinding;
+        activityHashCode = activityPluginBinding.getActivity().hashCode();
         mapUtils = new MapUtils(methodChannel, compactness, application);
         mapListenerHandler = new MapListenerHandler(id, mapUtils, methodChannel, application);
         logger = HMSLogger.getInstance(application);
@@ -952,8 +952,8 @@ final class MapController
     }
 
     private int getActivityHashCode() {
-        if (registrar != null) {
-            Activity activity = registrar.activity();
+        if (activityPluginBinding != null) {
+            Activity activity = activityPluginBinding.getActivity();
             if (activity != null) {
                 return activity.hashCode();
             }
@@ -962,8 +962,8 @@ final class MapController
     }
 
     private Application getApplication() {
-        if (registrar != null) {
-            Activity activity = registrar.activity();
+        if (activityPluginBinding != null) {
+            Activity activity = activityPluginBinding.getActivity();
             if (activity != null) {
                 return activity.getApplication();
             }
