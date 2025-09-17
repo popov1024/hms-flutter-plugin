@@ -1,8 +1,16 @@
-# HMS Flutter Plugins
+# HMS Location Flutter (Fork)
 
-[![license](https://img.shields.io/badge/license-Apache--2.0-green)](./LICENSE)
+Fork of [Huawei HMS Location Flutter Plugin](https://github.com/HMS-Core/hms-flutter-plugin) with updates and improvements.
 
-This repo contains the source code for HMS Flutter first-party plugins, which are developed by the HMS Core team.
+## Changes in this fork
+- Updated Android dependencies to match latest SDK changes
+- Adjusted interfaces for compatibility with newer Flutter versions
+- Additional fixes and improvements for project integration
+
+## License
+This project is licensed under the [Apache License 2.0](LICENSE).
+
+See [NOTICE](NOTICE) for details on original authorship and modifications.
 
 These plugins enable access to using kit-specific APIs. For more information
 about plugins, and how to use them, see
